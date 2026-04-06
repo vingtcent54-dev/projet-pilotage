@@ -1,0 +1,21 @@
+# Secrets — ne jamais committer
+.streamlit/secrets.toml
+*.json
+
+# Données personnelles
+extrait_compte_saxo/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
