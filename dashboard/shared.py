@@ -12,26 +12,55 @@ import streamlit as st
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
-# ── Constantes visuelles — Charte Malakoff Humanis ────────────────────────────
-CORAIL       = "#E2250C"
-BLEU_DARK    = "#1A283E"
-VIOLET_DARK  = "#5514C7"
-TURQUOISE_DK = "#006374"
-ROSE_DARK    = "#D81E88"
-JAUNE_DARK   = "#F9BD00"
-VERT_DARK    = "#008275"
+# ── Constantes visuelles — Design System Analyse Business ─────────────────────
+# Palette principale — Indigo
+PRIMARY       = "#4f46e5"
+PRIMARY_LIGHT = "#eef2ff"
+PRIMARY_MUTED = "#818cf8"
 
-COULEURS_COMPTES = {"CTO": TURQUOISE_DK, "PEA": VERT_DARK, "PEA-PME": JAUNE_DARK}
-COULEURS_TYPES   = {"Stock": CORAIL, "Etf": BLEU_DARK, "Etn": TURQUOISE_DK,
-                    "Etc": JAUNE_DARK, "Cash": VERT_DARK}
+# Header & texte foncé
+HEADER_BG     = "#1e1b4b"
+
+# Couleurs sémantiques
+GREEN         = "#059669"
+GREEN_LIGHT   = "#ecfdf5"
+RED           = "#dc2626"
+RED_LIGHT     = "#fef2f2"
+AMBER         = "#d97706"
+AMBER_LIGHT   = "#fffbeb"
+BLUE          = "#2563eb"
+BLUE_LIGHT    = "#eff6ff"
+
+# Fond & surfaces
+BG_PAGE       = "#f8f9fc"
+SURFACE       = "#ffffff"
+SURFACE_ALT   = "#f1f4f9"
+
+# Texte
+TEXT_COLOR     = "#1e293b"
+TEXT_SECONDARY = "#475569"
+TEXT_MUTED     = "#94a3b8"
+
+# Bordures & ombres
+BORDER        = "#e2e8f0"
+
+# Graphiques
+BG_CHART      = "rgba(0,0,0,0)"
+FONT_COLOR    = TEXT_COLOR
+
+# Aliases rétrocompatibles (utilisés dans les pages)
+CORAIL       = PRIMARY
+BLEU_DARK    = HEADER_BG
+VIOLET_DARK  = PRIMARY_MUTED
+TURQUOISE_DK = BLUE
+ROSE_DARK    = RED
+JAUNE_DARK   = AMBER
+VERT_DARK    = GREEN
+
+COULEURS_COMPTES = {"CTO": BLUE, "PEA": GREEN, "PEA-PME": AMBER}
+COULEURS_TYPES   = {"Stock": PRIMARY, "Etf": HEADER_BG, "Etn": BLUE,
+                    "Etc": AMBER, "Cash": GREEN}
 LABELS_TYPES     = {"Stock": "Actions", "Etf": "ETF", "Etn": "ETN", "Etc": "ETC", "Cash": "Cash"}
-
-BG_PAGE   = "#FFFFFF"
-BG_CARD   = "#FFFFFF"
-BG_CHART  = "rgba(0,0,0,0)"
-FONT_COLOR = "#000000"
-TEXT_MUTED = "#6B7280"
-BORDER_LIGHT = "#F3A89E"
 
 SEUIL_ORANGE = 8.0   # % pondération — point d'attention
 SEUIL_ROUGE  = 10.0  # % pondération — surpondération
@@ -45,8 +74,8 @@ CSS = """
 /* ── Masquer la navigation automatique Streamlit (pages/) ── */
 [data-testid="stSidebarNav"] { display: none !important; }
 
-/* ── Charte Malakoff Humanis — Poppins / tons clairs / corail ── */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* ── Design System Analyse Business — Indigo / Poppins+Lato+JetBrains Mono ── */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lato:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ── Logo sidebar ── */
 .sidebar-logo {
@@ -60,35 +89,22 @@ CSS = """
 .app-name {
     font-family: 'Poppins', sans-serif;
     font-size: 1.4rem; font-weight: 700;
-    color: #1A283E; letter-spacing: -.02em;
+    color: #1e293b; letter-spacing: -.02em;
 }
-.app-accent { color: #E2250C; }
+.app-accent { color: #4f46e5; }
 
 /* Fond général */
-[data-testid="stAppViewContainer"] { background: #FFFFFF; }
-[data-testid="stSidebar"]          { background: #FFF2F0; border-right: 1px solid #F3A89E; }
+[data-testid="stAppViewContainer"] { background: #f8f9fc; }
+[data-testid="stSidebar"]          { background: #eef2ff; border-right: 1px solid #e2e8f0; }
 [data-testid="stHeader"]           { background: transparent; }
 
 /* Typographie globale */
 html, body, [class*="css"] {
-    font-family: 'Poppins', sans-serif !important;
+    font-family: 'Lato', sans-serif !important;
 }
 
 /* ── Navigation verticale sidebar ── */
 .sidebar-nav { margin: 4px 0 12px; display: flex; flex-direction: column; gap: 4px; }
-[data-testid="stSidebar"] .sidebar-nav + div .stButton > button,
-[data-testid="stSidebar"] .stButton > button {
-    background: transparent !important;
-    color: #1A283E !important;
-    border: none !important;
-    border-radius: 8px !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-size: .85rem !important; font-weight: 500 !important;
-    padding: 10px 14px !important;
-    text-align: left !important;
-    transition: all 0.15s ease !important;
-    width: 100% !important;
-}
 
 /* ── Sidebar ── */
 [data-testid="stSidebar"] { width: 230px !important; min-width: 230px !important; }
@@ -97,7 +113,7 @@ html, body, [class*="css"] {
 /* Boutons nav sidebar — état normal */
 [data-testid="stSidebar"] [data-testid="stButton"] > button {
     background: transparent !important;
-    color: #1A283E !important;
+    color: #1e293b !important;
     border: none !important;
     border-radius: 8px !important;
     font-family: 'Poppins', sans-serif !important;
@@ -109,37 +125,37 @@ html, body, [class*="css"] {
     justify-content: flex-start !important;
 }
 [data-testid="stSidebar"] [data-testid="stButton"] > button:hover {
-    background: #FFF2F0 !important;
-    color: #E2250C !important;
+    background: #eef2ff !important;
+    color: #4f46e5 !important;
 }
 
 /* Panneau filtres — style "fenêtre" */
 .filter-panel {
-    background: #FFFFFF;
-    border: 1.5px solid #F3A89E;
-    border-radius: 10px;
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
     padding: 12px 14px 14px;
     margin-top: 4px;
-    box-shadow: 0 2px 8px rgba(226,37,12,0.07);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
 }
 .filter-panel-title {
     font-family: 'Poppins', sans-serif; font-size: .65rem; font-weight: 700;
-    color: #E2250C; text-transform: uppercase; letter-spacing: .1em;
+    color: #4f46e5; text-transform: uppercase; letter-spacing: .1em;
     margin-bottom: 10px; padding-bottom: 6px;
-    border-bottom: 1.5px solid #F9D3CE;
+    border-bottom: 1.5px solid #e2e8f0;
 }
 .sidebar-meta {
-    font-family: 'Poppins', sans-serif; font-size: .65rem;
-    color: #9CA3AF; line-height: 1.5; margin-top: 8px;
+    font-family: 'Lato', sans-serif; font-size: .65rem;
+    color: #94a3b8; line-height: 1.5; margin-top: 8px;
 }
 
 /* KPI cards */
 .kpi-wrap  { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 4px; }
 .kpi-card  {
-    flex: 1 1 auto; min-width: 0; background: #FFFFFF; border-radius: 12px;
-    padding: 14px 16px; border-left: 4px solid;
-    box-shadow: 0 2px 8px rgba(226, 37, 12, 0.08);
-    border: 1px solid #F9D3CE;
+    flex: 1 1 auto; min-width: 0; background: #ffffff; border-radius: 12px;
+    padding: 14px 16px; border-top: 3px solid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+    border-left: none;
     overflow: hidden;
     height: 100%; display: flex; flex-direction: column; justify-content: center;
 }
@@ -148,41 +164,41 @@ html, body, [class*="css"] {
 [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] > div {
     height: 100%;
 }
-.kpi-lbl   { font-size:.68rem; color:#6B7280; font-weight:600;
-             text-transform:uppercase; letter-spacing:.04em;
+.kpi-lbl   { font-size:.68rem; color:#94a3b8; font-weight:600;
+             text-transform:uppercase; letter-spacing:.08em;
              font-family: 'Poppins', sans-serif;
              white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
              display: flex; align-items: center; gap: 4px; }
 .kpi-lbl .kpi-info {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 14px; height: 14px; border-radius: 50%; background: #E5E7EB;
-    color: #6B7280; font-size: .55rem; font-weight: 700; cursor: help;
+    width: 14px; height: 14px; border-radius: 50%; background: #f1f4f9;
+    color: #94a3b8; font-size: .55rem; font-weight: 700; cursor: help;
     flex-shrink: 0; position: relative; text-transform: none; letter-spacing: 0;
 }
 .kpi-lbl .kpi-info:hover::after {
     content: attr(data-tooltip);
     position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%);
-    background: #1A283E; color: #fff; font-size: .65rem; font-weight: 400;
-    padding: 6px 10px; border-radius: 6px; white-space: normal;
+    background: #1e1b4b; color: #fff; font-size: .65rem; font-weight: 400;
+    padding: 6px 10px; border-radius: 8px; white-space: normal;
     width: max-content; max-width: 240px; z-index: 999;
-    box-shadow: 0 2px 8px rgba(0,0,0,.18); line-height: 1.4;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06); line-height: 1.4;
     text-transform: none; letter-spacing: 0;
 }
-.kpi-val   { font-size:1.45rem; font-weight:700; color:#1A283E; margin-top:4px; line-height:1.1;
-             font-family: 'Poppins', sans-serif;
+.kpi-val   { font-size:1.45rem; font-weight:700; color:#1e293b; margin-top:4px; line-height:1.1;
+             font-family: 'JetBrains Mono', monospace;
              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.kpi-sub   { font-size:.68rem; color:#6B7280; margin-top:4px;
-             font-family: 'Poppins', sans-serif;
+.kpi-sub   { font-size:.68rem; color:#475569; margin-top:4px;
+             font-family: 'Lato', sans-serif;
              word-break: break-word; line-height: 1.3; }
-.pos       { color:#008275 !important; }
-.neg       { color:#E2250C !important; }
+.pos       { color:#059669 !important; }
+.neg       { color:#dc2626 !important; }
 
 /* Section titles */
 .sec-title {
-    font-size:.7rem; font-weight:700; color:#E2250C;
+    font-size:.7rem; font-weight:700; color:#4f46e5;
     text-transform:uppercase; letter-spacing:.1em;
     margin: 18px 0 10px; padding-bottom:6px;
-    border-bottom: 2px solid #F9D3CE;
+    border-bottom: 2px solid #4f46e5;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -190,24 +206,24 @@ html, body, [class*="css"] {
 .badge { display:inline-block; border-radius:5px; padding:2px 10px;
          font-size:.72rem; font-weight:700; margin-bottom:6px;
          font-family: 'Poppins', sans-serif; }
-.badge-CTO     { background:#00637415; color:#006374; }
-.badge-PEA     { background:#00827515; color:#008275; }
-.badge-PEA-PME { background:#F9BD0020; color:#9A7500; }
+.badge-CTO     { background:#eff6ff; color:#2563eb; }
+.badge-PEA     { background:#ecfdf5; color:#059669; }
+.badge-PEA-PME { background:#fffbeb; color:#d97706; }
 
 /* Table footer */
-.tbl-footer { text-align:right; font-size:.78rem; color:#6B7280;
+.tbl-footer { text-align:right; font-size:.78rem; color:#475569;
               margin:-12px 0 20px; padding-right: 4px;
-              font-family: 'Poppins', sans-serif;
+              font-family: 'Lato', sans-serif;
               word-break: break-word; }
 
 /* Note de bas de page */
-.footnote  { font-size:.7rem; color:#6B7280; margin-top:10px;
-             font-family: 'Poppins', sans-serif; }
+.footnote  { font-size:.7rem; color:#94a3b8; margin-top:10px;
+             font-family: 'Lato', sans-serif; }
 
 /* Sidebar text — minimaliste */
 [data-testid="stSidebar"] .stMarkdown p,
 [data-testid="stSidebar"] .stMarkdown span {
-    color: #1A283E; font-size: .78rem;
+    color: #1e293b; font-size: .78rem;
 }
 [data-testid="stSidebar"] .stSelectbox label {
     font-size: .72rem !important;
@@ -216,30 +232,30 @@ html, body, [class*="css"] {
     font-size: .75rem !important;
 }
 [data-testid="stSidebar"] hr {
-    margin: 10px 0; border-color: #F3A89E40;
+    margin: 10px 0; border-color: #e2e8f040;
 }
 
 /* Main title */
-.main h2 { color: #1A283E !important;
+.main h2 { color: #1e293b !important;
     font-family: 'Poppins', sans-serif !important; font-weight: 700 !important; }
 
 /* Page title with icon */
 .page-title {
     font-family: 'Poppins', sans-serif;
     font-weight: 700; font-size: 1.5rem;
-    color: #1A283E; margin-bottom: 4px;
+    color: #1e293b; margin-bottom: 4px;
     display: flex; align-items: center; gap: 10px;
 }
 .page-subtitle {
-    font-family: 'Poppins', sans-serif;
-    font-size: .8rem; color: #6B7280;
+    font-family: 'Lato', sans-serif;
+    font-size: .8rem; color: #475569;
     margin-bottom: 16px;
 }
 
 /* Bouton Recharger — dans le panneau filtres */
 .filter-panel [data-testid="stButton"] > button,
 [data-testid="stSidebar"] .filter-reload button {
-    background-color: #1A283E !important;
+    background-color: #1e1b4b !important;
     color: white !important;
     border: none !important;
     border-radius: 8px !important;
@@ -251,13 +267,13 @@ html, body, [class*="css"] {
     width: 100% !important;
 }
 [data-testid="stSidebar"] .filter-reload button:hover {
-    background-color: #E2250C !important;
+    background-color: #4f46e5 !important;
 }
 
 /* Selectbox / inputs */
 [data-testid="stSidebar"] .stSelectbox label,
 [data-testid="stSidebar"] .stCheckbox label {
-    color: #1A283E !important;
+    color: #1e293b !important;
     font-family: 'Poppins', sans-serif !important;
     font-weight: 500 !important;
 }
@@ -272,13 +288,14 @@ html, body, [class*="css"] {
 
 /* Placeholder (pages en construction) */
 .placeholder-box {
-    background: #FFF2F0; border: 2px dashed #F3A89E; border-radius: 12px;
+    background: #eef2ff; border: 2px dashed #818cf8; border-radius: 12px;
     padding: 40px; text-align: center; margin: 20px 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 .placeholder-box .icon { font-size: 2.5rem; margin-bottom: 12px; }
-.placeholder-box .title { font-size: 1.1rem; font-weight: 600; color: #1A283E; }
-.placeholder-box .desc  { font-size: .85rem; color: #6B7280; margin-top: 6px; }
+.placeholder-box .title { font-size: 1.1rem; font-weight: 600; color: #1e293b;
+                           font-family: 'Poppins', sans-serif; }
+.placeholder-box .desc  { font-size: .85rem; color: #475569; margin-top: 6px; }
 
 /* ── Responsive — petits écrans ── */
 @media (max-width: 900px) {
@@ -321,7 +338,7 @@ def kpi(col, label: str, value: str, sub: str, color: str, cls: str = "",
             if tooltip else "")
     with col:
         st.markdown(
-            f'<div class="kpi-card" style="border-color:{color}">'
+            f'<div class="kpi-card" style="border-top-color:{color}">'
             f'<div class="kpi-lbl">{label}{info}</div>'
             f'<div class="kpi-val {cls}">{value}</div>'
             f'<div class="kpi-sub">{sub}</div>'
@@ -375,11 +392,11 @@ def bar_positions(pos: pd.DataFrame, height=310):
     couleurs = []
     for pct in df["poids_pct"]:
         if pct >= SEUIL_ROUGE:
-            couleurs.append(CORAIL)
+            couleurs.append(RED)
         elif pct >= SEUIL_ORANGE:
-            couleurs.append(JAUNE_DARK)
+            couleurs.append(AMBER)
         else:
-            couleurs.append(VERT_DARK)
+            couleurs.append(GREEN)
 
     fig = go.Figure(go.Bar(
         x=df["poids_pct"],
@@ -406,7 +423,7 @@ def bar_positions(pos: pd.DataFrame, height=310):
         margin=dict(t=8, b=8, l=8, r=60),
         paper_bgcolor=BG_CHART, plot_bgcolor=BG_CHART,
         font=dict(color=FONT_COLOR, family="Poppins, sans-serif"),
-        xaxis=dict(showgrid=True, gridcolor="#F9D3CE", tickfont_size=10,
+        xaxis=dict(showgrid=True, gridcolor="#e2e8f0", tickfont_size=10,
                    zeroline=False, showticklabels=False,
                    range=[0, df["poids_pct"].max() * 1.25]),
         yaxis=dict(tickfont_size=10, automargin=True),

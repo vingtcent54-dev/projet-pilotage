@@ -14,13 +14,13 @@ from dashboard.shared import (
 )
 
 COULEURS_BENCH: dict[str, str] = {
-    "S&P 500":    "#FF6B35",
-    "MSCI World": "#8B5CF6",
+    "S&P 500":    "#dc2626",
+    "MSCI World": "#818cf8",
     "CAC 40":     "#059669",
-    "Nasdaq-100": "#0891B2",
-    "STOXX 600":  "#D97706",
+    "Nasdaq-100": "#2563eb",
+    "STOXX 600":  "#d97706",
 }
-COULEUR_PTF = BLEU_DARK
+COULEUR_PTF = "#4f46e5"
 
 
 @st.cache_data(show_spinner="Calcul de la performance (cours historiques + TWR)…")
@@ -176,11 +176,11 @@ def render(pos: pd.DataFrame, positions_all: pd.DataFrame, df_enr: pd.DataFrame)
         paper_bgcolor=BG_CHART, plot_bgcolor=BG_CHART,
         font=dict(color=FONT_COLOR, family="Poppins, sans-serif"),
         xaxis=dict(
-            showgrid=True, gridcolor="#F3F4F6",
+            showgrid=True, gridcolor="#e2e8f0",
             tickformat="%b %Y", tickfont_size=10,
         ),
         yaxis=dict(
-            showgrid=True, gridcolor="#F3F4F6",
+            showgrid=True, gridcolor="#e2e8f0",
             ticksuffix=" %", tickfont_size=10,
             zeroline=False,
         ),
@@ -208,8 +208,8 @@ def render(pos: pd.DataFrame, positions_all: pd.DataFrame, df_enr: pd.DataFrame)
         mode="lines",
         fill="tozeroy",
         name="Valeur EUR",
-        line=dict(color=BLEU_DARK, width=2),
-        fillcolor="rgba(26, 40, 62, 0.08)",
+        line=dict(color="#4f46e5", width=2),
+        fillcolor="rgba(79, 70, 229, 0.08)",
         hovertemplate="<b>%{x}</b><br>%{y:,.0f} €<extra></extra>",
     ))
     fig_val.update_layout(
@@ -218,11 +218,11 @@ def render(pos: pd.DataFrame, positions_all: pd.DataFrame, df_enr: pd.DataFrame)
         paper_bgcolor=BG_CHART, plot_bgcolor=BG_CHART,
         font=dict(color=FONT_COLOR, family="Poppins, sans-serif"),
         xaxis=dict(
-            showgrid=True, gridcolor="#F3F4F6",
+            showgrid=True, gridcolor="#e2e8f0",
             tickformat="%b %Y", tickfont_size=10,
         ),
         yaxis=dict(
-            showgrid=True, gridcolor="#F3F4F6",
+            showgrid=True, gridcolor="#e2e8f0",
             ticksuffix=" €", tickfont_size=10,
         ),
         showlegend=False,

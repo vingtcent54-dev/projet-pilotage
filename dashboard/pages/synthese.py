@@ -156,16 +156,16 @@ def render(pos: pd.DataFrame, positions_all: pd.DataFrame, df_enr: pd.DataFrame)
     df_final["Statut"] = df_disp["position_soldee"].map({True: "soldée", False: "ouverte"})
     df_final["Compte"] = df_disp["type_compte"]
 
-    # Coloration PV% — 3 zones : positif / neutre / négatif (pastels charte MH)
+    # Coloration PV% — 3 zones : positif / neutre / négatif
     SEUIL_NEUTRE = 5.0  # % : entre -5% et +5% → zone neutre
     def _color_pv_pct(val):
         if pd.isna(val):
             return ""
         if val >= SEUIL_NEUTRE:
-            return f"background-color: #E1FBF6; color: {VERT_DARK}"   # Vert pastel / Vert dark
+            return "background-color: #ecfdf5; color: #059669"   # green-light / green
         if val > -SEUIL_NEUTRE:
-            return "background-color: #FED7AA; color: #C2410C"         # Orange pastel / Orange foncé
-        return f"background-color: #FFF2F0; color: {CORAIL}"           # Corail pastel / Corail MH
+            return "background-color: #fffbeb; color: #d97706"   # amber-light / amber
+        return "background-color: #fef2f2; color: #dc2626"       # red-light / red
 
     styled = df_final.style
     if "PV latente (%)" in df_final.columns:
