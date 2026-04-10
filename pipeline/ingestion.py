@@ -23,6 +23,52 @@ def _trouver_onglet(noms_onglets: list[str], mot_cle: str) -> str | None:
     return None
 
 
+def valider_fichier_saxo(contenu: bytes, nom: str) -> list[str]:
+    """
+    Valide un fichier xlsx Saxo Bank avant upload.
+    Retourne une liste d'erreurs (vide = fichier valide).
+    """
+    erreurs = []
+
+    # Vérifier le pattern du nom
+    if not nom.startswith("Transactions_") or not nom.endswith(".xlsx"):
+        erreurs.append("Le nom doit suivre le format `Transactions_*.xlsx`.")
+
+    # Vérifier que le fichier est un xlsx lisible
+    try:
+        xl = pd.ExcelFile(BytesIO(contenu))
+    except Exception:
+        erreurs.append("Fichier illisible — ce n'est pas un fichier Excel valide.")
+        return erreurs
+
+    noms_onglets = xl.sheet_names
+
+    # Vérifier la présence des 3 onglets requis
+    onglet_t = _trouver_onglet(noms_onglets, "transaction")
+    onglet_o = _trouver_onglet(noms_onglets, "op")
+    onglet_b = _trouver_onglet(noms_onglets, "booking")
+
+    manquants = []
+    if not onglet_t:
+        manquants.append("Transactions")
+    if not onglet_o:
+        manquants.append("Opérations")
+    if not onglet_b:
+        manquants.append("Bookings")
+
+    if manquants:
+        erreurs.append(f"Onglet(s) manquant(s) : {', '.join(manquants)}.")
+
+    # Vérifier que les onglets présents ne sont pas vides
+    for label, onglet in [("Transactions", onglet_t), ("Opérations", onglet_o), ("Bookings", onglet_b)]:
+        if onglet:
+            df = xl.parse(onglet)
+            if df.empty:
+                erreurs.append(f"L'onglet « {label} » est vide.")
+
+    return erreurs
+
+
 def charger_tous_les_fichiers() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Charge et concatène tous les fichiers Transactions_*.xlsx depuis Google Drive.

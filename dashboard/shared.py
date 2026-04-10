@@ -499,6 +499,40 @@ def sidebar_filtres(positions_all: pd.DataFrame):
         st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
+    # ── Upload d'un nouvel extrait ──
+    # Clé dynamique : on incrémente un compteur après chaque upload réussi
+    # pour réinitialiser le widget (purger le fichier affiché).
+    upload_gen = st.session_state.get("_upload_gen", 0)
+    uploaded = st.file_uploader(
+        "Charger un extrait Saxo",
+        type=["xlsx"],
+        key=f"upload_extrait_{upload_gen}",
+        help="Fichier Transactions_*.xlsx exporté depuis Saxo Bank",
+    )
+    if uploaded is not None:
+        from pipeline.ingestion import valider_fichier_saxo
+        from pipeline.gdrive import uploader_fichier_xlsx
+
+        contenu = uploaded.getvalue()
+        erreurs = valider_fichier_saxo(contenu, uploaded.name)
+
+        if erreurs:
+            for e in erreurs:
+                st.error(e)
+        else:
+            try:
+                uploader_fichier_xlsx(uploaded.name, contenu)
+                # Incrémenter la clé pour purger le widget au prochain rerun
+                st.session_state["_upload_gen"] = upload_gen + 1
+                st.toast(f"« {uploaded.name} » chargé sur Drive.")
+                # Rafraîchir les données automatiquement
+                st.cache_data.clear()
+                for k in ["positions_all", "historique", "df_enr"]:
+                    st.session_state.pop(k, None)
+                st.rerun()
+            except Exception as exc:
+                st.error(f"Erreur lors de l'upload : {exc}")
+
     # Méta-infos compactes
     from pipeline.gdrive import lister_fichiers_saxo
     fichiers_saxo = lister_fichiers_saxo()

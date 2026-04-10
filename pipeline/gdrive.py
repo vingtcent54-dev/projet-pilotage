@@ -66,6 +66,42 @@ def telecharger_fichier(file_id: str) -> io.BytesIO:
     return buffer
 
 
+def uploader_fichier_xlsx(nom: str, contenu: bytes) -> None:
+    """
+    Upload un fichier .xlsx dans le dossier Drive Saxo.
+    Si un fichier du même nom existe déjà, il est écrasé.
+    """
+    service = _service()
+    folder_id = st.secrets["gdrive"]["folder_id"]
+
+    # Vérifier si un fichier du même nom existe déjà
+    query = (
+        f"'{folder_id}' in parents"
+        f" and name = '{nom}'"
+        " and trashed = false"
+    )
+    existants = (
+        service.files()
+        .list(q=query, fields="files(id)")
+        .execute()
+        .get("files", [])
+    )
+
+    media = MediaIoBaseUpload(
+        io.BytesIO(contenu),
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        resumable=False,
+    )
+
+    if existants:
+        # Écraser le fichier existant
+        service.files().update(fileId=existants[0]["id"], media_body=media).execute()
+    else:
+        # Créer un nouveau fichier
+        metadata = {"name": nom, "parents": [folder_id]}
+        service.files().create(body=metadata, media_body=media).execute()
+
+
 def uploader_csv(file_id: str, df: pd.DataFrame) -> None:
     """Met à jour le contenu d'un fichier CSV existant sur Drive."""
     service = _service()
