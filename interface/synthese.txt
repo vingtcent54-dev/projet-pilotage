@@ -1,0 +1,83 @@
+PAGE SYNTHESE — "Ou en est mon portefeuille aujourd'hui ?"
+══════════════════════════════════════════════════════════════
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Synthese                                                                    │
+│  Ou en est mon portefeuille aujourd'hui ?                                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ KPI CARDS — st.columns(4) ─────────────────────────────────────────────────┐
+│                                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
+│  │▔▔▔▔▔▔▔▔▔▔▔▔▔▔│  │▔▔▔▔▔▔▔▔▔▔▔▔▔▔│  │▔▔▔▔▔▔▔▔▔▔▔▔▔▔│  │▔▔▔▔▔▔▔▔▔▔▔▔▔▔│     │
+│  │ border-top:   │  │ border-top:   │  │ border-top:   │  │ border-top:   │     │
+│  │ #4f46e5       │  │ #2563eb       │  │ #059669       │  │ #d97706       │     │
+│  │               │  │               │  │               │  │               │     │
+│  │ VALEUR DU     │  │ CASH          │  │ PV LATENTE    │  │ PV REALISEES  │     │
+│  │ COMPTE        │  │ DISPONIBLE    │  │               │  │               │     │
+│  │               │  │               │  │               │  │               │     │
+│  │ 12 345 €      │  │ 2 000 €       │  │ +500 €        │  │ +300 €        │     │
+│  │ (JetBrains)   │  │ (JetBrains)   │  │ cls=pos/neg   │  │ cls=pos/neg   │     │
+│  │               │  │               │  │               │  │               │     │
+│  │ Capital inv:  │  │ X.X % du      │  │ +X.X % sur    │  │ N ouvertes    │     │
+│  │ X XXX €       │  │ compte        │  │ capital inv.  │  │ N soldees     │     │
+│  └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘     │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+── st.divider() ───────────────────────────────────────────────────────────────
+
+┌─ GRAPHIQUES REPARTITION — st.columns([1, 1, 2]) ───────────────────────────┐
+│                                                                              │
+│  col_d1 (1)          col_d2 (1)          col_valeur (2)                      │
+│  ┌──────────────┐    ┌──────────────┐    ┌───────────────────────────────┐   │
+│  │ REPARTITION  │    │ REPARTITION  │    │ PONDERATION DES POSITIONS     │   │
+│  │ PAR COMPTE   │    │ PAR TYPE     │    │                               │   │
+│  │ (sec-title)  │    │ D'ACTIF      │    │ Bar chart horizontal          │   │
+│  │              │    │ (sec-title)  │    │ (bar_positions)               │   │
+│  │   ┌──────┐   │    │              │    │                               │   │
+│  │   │      │   │    │   ┌──────┐   │    │ Instru A  ████░░░░  12.1 %   │   │
+│  │   │DONUT │   │    │   │DONUT │   │    │ Instru B  ██████░░  18.3 %   │   │
+│  │   │      │   │    │   │      │   │    │ Instru C  ███░░░░░   8.0 %   │   │
+│  │   │ XXX€ │   │    │   │      │   │    │ Instru D  █████████  22.5 %  │   │
+│  │   │(anno)│   │    │   │      │   │    │ ...                          │   │
+│  │   └──────┘   │    │   └──────┘   │    │                               │   │
+│  │              │    │              │    │ Couleurs :                     │   │
+│  │ Couleurs:    │    │ Couleurs:    │    │  < 8%  → #059669 (vert)       │   │
+│  │ CTO=#2563eb  │    │ Stock=#4f46e5│    │  8-10% → #d97706 (orange)    │   │
+│  │ PEA=#059669  │    │ ETF=#1e1b4b  │    │  >10%  → #dc2626 (rouge)     │   │
+│  │ PME=#d97706  │    │ ETN=#2563eb  │    │                    h=310px    │   │
+│  │   h=240px    │    │ ETC=#d97706  │    └───────────────────────────────┘   │
+│  └──────────────┘    │ Cash=#059669 │                                        │
+│                      │   h=240px    │                                        │
+│                      └──────────────┘                                        │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+── st.divider() ───────────────────────────────────────────────────────────────
+
+┌─ TABLE POSITIONS — st.dataframe (pleine largeur) ───────────────────────────┐
+│ "Detail des positions" (sec-title)                                           │
+│                                                                              │
+│ ┌────────┬────────────┬─────┬───────┬─────────┬────────┬────────┬────────┐  │
+│ │Symbole │ Instrument │ Qte │ PRU € │Investi €│Valeur €│PV lat €│PV lat% │  │
+│ ├────────┼────────────┼─────┼───────┼─────────┼────────┼────────┼────────┤  │
+│ │        │            │     │       │         │        │        │        │  │
+│ │        │            │     │       │         │        │        │        │  │
+│ └────────┴────────────┴─────┴───────┴─────────┴────────┴────────┴────────┘  │
+│                                                                              │
+│ + colonnes : PV realisee € | Achats | Ventes | Derniere op. | Statut | Cpt  │
+│                                                                              │
+│ Coloration PV lat% :                                                         │
+│   >= +5%  → fond #ecfdf5, texte #059669                                     │
+│   -5/+5%  → fond #fffbeb, texte #d97706                                     │
+│   <= -5%  → fond #fef2f2, texte #dc2626                                     │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ FOOTER (aligne a droite) ──────────────────────────────────────────────────┐
+│          Total Tous · Valeur : X € · PV latente : Y € · PV realisee : Z €  │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+(footnote) PRU calcule par methode CUMP incluant commissions, TTF et couts
+de conversion. Cours de marche via yfinance (cache 5 min). Donnees en EUR.
+
+SOURCE : dashboard/pages/synthese.py

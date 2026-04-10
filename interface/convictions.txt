@@ -1,0 +1,25 @@
+PAGE CONVICTIONS — "Pourquoi je suis positionne ainsi ?"
+══════════════════════════════════════════════════════════════
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Convictions                                                                 │
+│  Pourquoi je suis positionne ainsi ?                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PLACEHOLDER (page en construction) ────────────────────────────────────────┐
+│                                                                              │
+│                                                                              │
+│                              🎯                                              │
+│                                                                              │
+│                      Convictions a venir                                      │
+│                                                                              │
+│          Theses d'investissement · Liens vers analyses                        │
+│          Blue Team / Red Team · Watchlist · Suivi des                         │
+│          points d'entree                                                     │
+│                                                                              │
+│                                                                              │
+│  Style : fond #eef2ff · bordure 2px dashed #818cf8 · radius 12px            │
+│          padding 40px · texte centre                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+SOURCE : dashboard/pages/convictions.py

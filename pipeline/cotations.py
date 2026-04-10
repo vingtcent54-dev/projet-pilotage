@@ -74,8 +74,11 @@ def recuperer_cours(positions: pd.DataFrame) -> pd.DataFrame:
                                      "devise_prix", "prix_actuel_eur", "taux_change_eur"])
 
     # Téléchargement
-    data = yf.download(tous_tickers, period="2d", auto_adjust=True, progress=False,
-                       group_by="ticker")
+    try:
+        data = yf.download(tous_tickers, period="2d", auto_adjust=True, progress=False,
+                           group_by="ticker", threads=1)
+    except Exception:
+        data = pd.DataFrame()
 
     cours_map: dict[str, float] = {}
     if not data.empty:

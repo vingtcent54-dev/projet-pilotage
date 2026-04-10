@@ -139,13 +139,17 @@ def calculer_performance(
     tickers_a_telecharger = tickers_list + list(paires_fx.values())
 
     if tickers_a_telecharger:
-        raw = yf.download(
-            tickers_a_telecharger,
-            start=d_debut_ts - timedelta(days=5),
-            end=d_fin_ts + timedelta(days=1),
-            auto_adjust=True,
-            progress=False,
-        )
+        try:
+            raw = yf.download(
+                tickers_a_telecharger,
+                start=d_debut_ts - timedelta(days=5),
+                end=d_fin_ts + timedelta(days=1),
+                auto_adjust=True,
+                progress=False,
+                threads=1,
+            )
+        except Exception:
+            raw = pd.DataFrame()
         if not raw.empty:
             if len(tickers_a_telecharger) == 1:
                 t = tickers_a_telecharger[0]
@@ -311,6 +315,7 @@ def calculer_performance(
             end=d_fin_ts + timedelta(days=1),
             auto_adjust=True,
             progress=False,
+            threads=1,
         )
         if not bench_raw.empty:
             if len(bench_tickers) == 1:

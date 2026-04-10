@@ -1,0 +1,52 @@
+SIDEBAR (230px fixe · fond #eef2ff · bordure droite #e2e8f0)
+══════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────┐
+│                                     │
+│         [Logo / ClaudeAlpha]        │
+│          (max-width 160px)          │
+│                                     │
+├─────────────────────────────────────┤
+│                                     │
+│  NAV VERTICALE (.sidebar-nav)       │
+│  ┌─────────────────────────────┐    │
+│  │ 📊  Synthèse               │    │
+│  ├─────────────────────────────┤    │
+│  │ 📈  Performance             │    │
+│  ├─────────────────────────────┤    │
+│  │ 🎯  Convictions             │    │
+│  └─────────────────────────────┘    │
+│   Boutons pleine largeur           │
+│   Hover : fond #eef2ff, txt #4f46e5│
+│   Pas d'indicateur "actif" visible  │
+│                                     │
+├─────────────────────────────────────┤
+│                                     │
+│  PANNEAU FILTRES (.filter-panel)    │
+│  ┌─────────────────────────────┐    │
+│  │ FILTRES (titre uppercase)   │    │
+│  │ ─────────────────────────── │    │
+│  │                             │    │
+│  │ Compte        [Tous     v]  │    │
+│  │                             │    │
+│  │ ☐ Positions soldées        │    │
+│  │                             │    │
+│  │ ┌─────────────────────────┐ │    │
+│  │ │    ↺ Recharger          │ │    │
+│  │ └─────────────────────────┘ │    │
+│  │  (fond #1e1b4b, hover #4f46e5)  │
+│  │                             │    │
+│  │ [Charger un extrait Saxo]   │    │
+│  │  file_uploader .xlsx        │    │
+│  │                             │    │
+│  │ ┌───────────────────────┐   │    │
+│  │ │ 3 fichiers Saxo       │   │    │
+│  │ │ 2023-01 — 2026-04     │   │    │
+│  │ │ CUMP · EUR · yfinance │   │    │
+│  │ └───────────────────────┘   │    │
+│  └─────────────────────────────┘    │
+│                                     │
+└─────────────────────────────────────┘
+
+SOURCE : dashboard/app.py:47-82 (nav)
+         dashboard/shared.py:501-578 (filtres)
