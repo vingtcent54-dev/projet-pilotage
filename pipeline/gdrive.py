@@ -20,9 +20,12 @@ SCOPES = ["https://www.googleapis.com/auth/drive"]
 def _service():
     """Construit et met en cache le service Drive (une seule fois par session)."""
     creds_dict = dict(st.secrets["gdrive_credentials"])
-    # Streamlit stocke les \n littéraux dans les secrets — on les restaure
+    # Streamlit Cloud interprète déjà les \n ; en local ils restent littéraux
     if "private_key" in creds_dict:
-        creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
+        pk = creds_dict["private_key"]
+        if "\\n" in pk:
+            pk = pk.replace("\\n", "\n")
+        creds_dict["private_key"] = pk
     credentials = service_account.Credentials.from_service_account_info(
         creds_dict, scopes=SCOPES
     )
